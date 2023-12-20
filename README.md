@@ -1,5 +1,5 @@
-## Implementation of Binary Search Connections in DenseNet-121 (BSC-DenseNet-121) using Pytorch and Keras
-This repository includes the source code for BSC-Densenet of research paper `"Adding Binary Search Connections to Improve DenseNet Performance"`, published in Elsevier-SSRN conference proceedings of NGCT 2019. The base code of openly available DenseNet is also present in this repository for comparing our BSC-DenseNet on the CIFAR100 dataset.
+## Implementation of Binary Search Connections in DenseNet (BSC-DenseNet-121) using Pytorch
+This repository includes the implementaiton of **BSC-Densenet-121** of research paper `"Adding Binary Search Connections to Improve DenseNet Performance"`, published in Elsevier-SSRN conference proceedings of NGCT 2019. The base code of openly available DenseNet is also present in this repository for comparing our BSC-DenseNet on the CIFAR100 dataset.
 
 #### Paper Title: Adding Binary Search Connections to Improve DenseNet Performance
 
