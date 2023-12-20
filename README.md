@@ -30,7 +30,7 @@ or http://dx.doi.org/10.2139/ssrn.3545071
 ```python
 python3 run.py
 ```
-
+Overall Analysis is stored in visual graphs inside `overall_analysis.png`.
 ![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/overall_analysis.png?raw=true)
 
 #### Where are the Densenet-121 and BSC-Densenet-121 Models?
