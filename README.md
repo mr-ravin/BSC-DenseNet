@@ -19,7 +19,7 @@ Conference on Next Generation Computing Technologies (NGCT-2019). Available at S
 or http://dx.doi.org/10.2139/ssrn.3545071 
 ```
 
-#### Deep Learning Framework: Pytorch, i.e. `torch 1.8.0`
+###### Deep Learning Framework: Pytorch
 
 #### Comparing Densenet-121 and BSC-Densenet-121 on CIFAR 100 Dataset
 - Trainable Paramaters in `Densenet-121`: `7,056,356`
