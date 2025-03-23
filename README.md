@@ -15,7 +15,7 @@ This repository includes the implementaiton of **BSC-Densenet-121** of research 
 - [Research Gate](https://www.researchgate.net/publication/339673672_Adding_Binary_Search_Connections_to_Improve_DenseNet_Performance), [Research Gate - Preprint](https://www.researchgate.net/publication/382385286_Adding_binary_search_connections_to_improve_DenseNet_performance)
 - [Osf.io](https://osf.io/preprints/osf/8z42s_v1)
 - [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3545071)
-- [Internet Archive](https://archive.org/details/bsc-densenet), [Internet Archive - Preprint](https://archive.org/details/bsc-densenet--preprint)
+- [Internet Archive](https://archive.org/details/bsc-densenet)
 
 **GitHub Repository**: [https://github.com/mr-ravin/BSC-DenseNet](https://github.com/mr-ravin/BSC-DenseNet)
 
