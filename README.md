@@ -1,24 +1,29 @@
 ## Implementation of Binary Search Connections in DenseNet (BSC-DenseNet-121) using Pytorch
-This repository includes the implementaiton of **BSC-Densenet-121** of research paper `"Adding Binary Search Connections to Improve DenseNet Performance"`, published in Elsevier-SSRN conference proceedings of NGCT 2019. The base code of openly available DenseNet is also present in this repository for comparing our BSC-DenseNet on the CIFAR100 dataset.
+This repository includes the implementaiton of **BSC-Densenet-121** of research paper `"Adding Binary Search Connections to Improve DenseNet Performance"`, published in **Elsevier-SSRN conference proceedings of NGCT 2019**. The base code of openly available DenseNet is also present in this repository for comparing our BSC-DenseNet on the CIFAR100 dataset.
 
-#### Paper Title: Adding Binary Search Connections to Improve DenseNet Performance
+**Paper Title**: Adding Binary Search Connections to Improve DenseNet Performance
 
-##### Author: [Ravin Kumar](https://mr-ravin.github.io/)
+**Author**: [Ravin Kumar](https://mr-ravin.github.io/)
 
-##### Publication: 27th February 2020
+**Publication**: 27th February 2020
 
-##### Publication Link: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3545071
+**Published Paper**: [click here](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3545071)  <!-- Elsevier-SSRN conference proceedings of NGCT 2019 -->
 
-##### Doi: http://dx.doi.org/10.2139/ssrn.3545071
+**Doi**: [DOI Link of Paper](http://dx.doi.org/10.2139/ssrn.3545071)
+
+**Other Sources**:
+- [Research Gate](https://www.researchgate.net/publication/339673672_Adding_Binary_Search_Connections_to_Improve_DenseNet_Performance), [Research Gate - Preprint](https://www.researchgate.net/publication/382385286_Adding_binary_search_connections_to_improve_DenseNet_performance)
+- [Osf.io](https://osf.io/preprints/osf/8z42s_v1)
+- [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3545071)
+- [Internet Archive](https://archive.org/details/bsc-densenet), [Internet Archive - Preprint](https://archive.org/details/bsc-densenet--preprint)
+
+**GitHub Repository**: [https://github.com/mr-ravin/BSC-DenseNet](https://github.com/mr-ravin/BSC-DenseNet)
 
 ##### Cite as:
-
 ```
-Kumar, Ravin, Adding Binary Search Connections to Improve DenseNet Performance (February 27, 2020). 5th International 
-Conference on Next Generation Computing Technologies (NGCT-2019). Available at SSRN: https://ssrn.com/abstract=3545071
-or http://dx.doi.org/10.2139/ssrn.3545071 
+Kumar, Ravin, Adding Binary Search Connections to Improve DenseNet Performance (February 27, 2020). 5th International Conference on Next Generation Computing Technologies (NGCT-2019). Available at SSRN: https://ssrn.com/abstract=3545071 or http://dx.doi.org/10.2139/ssrn.3545071 
 ```
-
+---
 ###### Deep Learning Framework: Pytorch
 
 #### Comparing Densenet-121 and BSC-Densenet-121 on CIFAR 100 Dataset
