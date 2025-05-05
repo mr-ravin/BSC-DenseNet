@@ -6,7 +6,8 @@ import cv2
 import random
 
 class CIFAR100_Dataset(Dataset):
-    def __init__(self, transform=None, mode="train"):
+    def __init__(self, transform=None, device="cpu", mode="train"):
+        self.device = device
         if mode=="train":
             data = torchvision.datasets.CIFAR100(download=True,root="./dataset/train",train=True)
         else:
@@ -15,7 +16,7 @@ class CIFAR100_Dataset(Dataset):
         random.shuffle(self.data)
         self.transform = transform
         print("Data Loading: Total images in mode: ",mode," : " ,len(self.data))
-
+        
     def __len__(self):
         return len(self.data)
 
@@ -24,4 +25,4 @@ class CIFAR100_Dataset(Dataset):
         label_idx = self.data[idx][1]
         if self.transform:
             image = self.transform(image=image)["image"]
-        return image, torch.tensor(label_idx, dtype=torch.long)
+        return image.to(self.device), torch.tensor(label_idx, dtype=torch.long).to(self.device)

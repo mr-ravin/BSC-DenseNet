@@ -33,11 +33,11 @@ Kumar, Ravin, Adding Binary Search Connections to Improve DenseNet Performance (
 #### Comparing Densenet-121 and BSC-Densenet-121 on CIFAR 100 Dataset
 - Trainable Paramaters in `Densenet-121`: `7,056,356`
 - Trainable Paramaters in `BSC-Densenet-121`: `7,574,756`
-- `Densenet-121` accuracy on test set: `30.48`
-- `BSC-Densenet-121` accuracy on test set: `32.33`
+- `Densenet-121` accuracy on test set: `37.49`
+- `BSC-Densenet-121` accuracy on test set: `38.29`
 
 ```python
-python3 run.py
+python3 run.py --device cuda
 ```
 Overall Analysis is stored in visual graphs inside `overall_analysis.png`.
 ![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/overall_analysis.png?raw=true)
