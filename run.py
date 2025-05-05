@@ -14,19 +14,28 @@ from densenet import get_densenet_models
 from utils import plot_graph
 
 parser = argparse.ArgumentParser(description = "Pytorch BSC-DENSENET 121 model for multi-class classification ")
-parser.add_argument('-lr', '--learning_rate', default = 4e-3)
+parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 3e-3) # worked better for Densenet
+parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 4e-3) # worked better for BSC Densenet
 parser.add_argument('-dim','--dim', default=32)
 parser.add_argument('-ep', '--epoch', default = 20)
 parser.add_argument('-m', '--mode', default="train")
 parser.add_argument('-c', '--num_classes', default=100)
+parser.add_argument('-d', '--device', default="cpu")
 args = parser.parse_args()
-LR = args.learning_rate
+LR_DENSENET = args.learning_rate_densenet
+LR_BSC_DENSENET = args.learning_rate_bsc_densenet
 DIM = args.dim
 EPOCH = int(args.epoch)
 MODE = args.mode
+DEVICE = args.device
 NUM_CLASSES = int(args.num_classes)
+
 root_path = "./"
 DenseNet, BSC_DenseNet = get_densenet_models(NUM_CLASSES) # returns both Densenet-121 and BSC-Densenet-121 models So that we can compare on CIFAR 100
+
+if DEVICE != "cpu":
+    DenseNet.to(DEVICE)
+    BSC_DenseNet.to(DEVICE)
 
 def label_wise_accuracy(output, target):
     correct = 0
@@ -44,29 +53,25 @@ def label_wise_accuracy(output, target):
 
 def train(total_epoch):
     loss_fn = nn.CrossEntropyLoss()
-    densenet_optimizer = optim.Adam(DenseNet.parameters(), lr=LR)
+    densenet_optimizer = optim.Adam(DenseNet.parameters(), lr=LR_DENSENET)
     densenet_scheduler = StepLR(densenet_optimizer, step_size=3, gamma=0.05)
-    bsc_densenet_optimizer = optim.Adam(BSC_DenseNet.parameters(), lr=LR)
+    bsc_densenet_optimizer = optim.Adam(BSC_DenseNet.parameters(), lr=LR_BSC_DENSENET)
     bsc_densenet_scheduler = StepLR(bsc_densenet_optimizer, step_size=3, gamma=0.05)
     # Not using data-augmentation
-    transform_train = A.Compose(
-                [   A.Resize(height=DIM, width=DIM),
-                    A.HorizontalFlip(p=0.5),
-                    A.Rotate(limit=30,p=0.5),
-                    A.Normalize(mean=[0, 0, 0], std=[1, 1, 1], max_pixel_value=255,),
-                    ToTensorV2(),
-                ],
-                )
-    transform_test = A.Compose(
-                [   A.Resize(height=DIM, width=DIM),
-                    A.Normalize(mean=[0, 0, 0], std=[1, 1, 1], max_pixel_value=255,),
-                    ToTensorV2(),
-                ],
-                )
-    training_data = CIFAR100_Dataset(transform_train, mode="train")
-    test_data = CIFAR100_Dataset(transform_test, mode="test")
-    train_dataloader = DataLoader(training_data, batch_size=30, shuffle=True, pin_memory=True)
-    test_dataloader = DataLoader(test_data, batch_size=30, shuffle=True, pin_memory=True)
+    transform_train = A.Compose([  A.Resize(height=DIM, width=DIM),
+                                A.HorizontalFlip(p=0.5),
+                                A.Rotate(limit=30,p=0.5),
+                                A.Normalize(mean=[0, 0, 0], std=[1, 1, 1], max_pixel_value=255,),
+                                ToTensorV2(),
+                                ],)
+    transform_test = A.Compose([   A.Resize(height=DIM, width=DIM),
+                                A.Normalize(mean=[0, 0, 0], std=[1, 1, 1], max_pixel_value=255,),
+                                ToTensorV2(),
+                                ],)
+    training_data = CIFAR100_Dataset(transform_train, device = DEVICE, mode="train")
+    test_data = CIFAR100_Dataset(transform_test, device = DEVICE, mode="test")
+    train_dataloader = DataLoader(training_data, batch_size=120, shuffle=True, pin_memory=True if DEVICE == "cpu" else False)
+    test_dataloader = DataLoader(test_data, batch_size=120, shuffle=True, pin_memory=True if DEVICE == "cpu" else False)
     densenet_epoch_tr_loss, densenet_epoch_vl_loss = [],[]
     densenet_epoch_tr_acc, densenet_epoch_vl_acc = [], []
     bsc_densenet_epoch_tr_loss, bsc_densenet_epoch_vl_loss = [],[]
