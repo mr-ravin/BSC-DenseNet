@@ -30,6 +30,9 @@ Kumar, Ravin, Adding Binary Search Connections to Improve DenseNet Performance (
 ---
 ###### Deep Learning Framework: Pytorch
 
+- ##### Test with
+  - **Python**: >=3.7 and <= 3.13.2
+
 #### Comparing Densenet-121 and BSC-Densenet-121 on CIFAR 100 Dataset
 - Trainable Paramaters in `Densenet-121`: `7,056,356`
 - Trainable Paramaters in `BSC-Densenet-121`: `7,574,756`
