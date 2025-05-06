@@ -13,6 +13,7 @@ class CIFAR100_Dataset(Dataset):
         else:
             data = torchvision.datasets.CIFAR100(download=True,root="./dataset/test",train=False)
         self.data = [[np.array(i[0]), int(i[1])] for i in data]
+        random.seed(42)
         random.shuffle(self.data)
         self.transform = transform
         print("Data Loading: Total images in mode: ",mode," : " ,len(self.data))
