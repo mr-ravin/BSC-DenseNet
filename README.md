@@ -20,8 +20,7 @@ This repository includes the implementation of **BSC-Densenet-121** from researc
 **GitHub Repository**: [https://github.com/mr-ravin/BSC-DenseNet](https://github.com/mr-ravin/BSC-DenseNet)
 
 🔍 **Note on BSC Connections**:
-Binary Search Connections (BSC) introduced in this paper are implemented via **concatenation**, not addition. This preserves DenseNet’s feature aggregation mechanism and ensures richer feature representation at each layer.
-
+Binary Search Connections (BSC) introduced in this paper are implemented via **concatenation**, not addition. he BSC DenseNet adds extra connections within the densely connected block, preserving DenseNet’s feature aggregation mechanism and enhancing feature representation at each layer. 
 
 ##### Cite as:
 ```
