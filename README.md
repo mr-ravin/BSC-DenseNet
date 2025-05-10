@@ -27,23 +27,20 @@ Binary Search Connections (BSC) introduced in this paper are implemented via **c
 Kumar, Ravin, Adding Binary Search Connections to Improve DenseNet Performance (February 27, 2020). 5th International Conference on Next Generation Computing Technologies (NGCT-2019). Available at SSRN: https://ssrn.com/abstract=3545071 or http://dx.doi.org/10.2139/ssrn.3545071 
 ```
 ---
+### Understanding BSC DenseNet
+Binary Search Connections (BSC) introduced in this paper are implemented via **concatenation**, not addition. BSC DenseNet has extra connections within the densely connected block, preserving DenseNet’s feature aggregation mechanism and enhancing feature representation at each layer. DenseNet block with Binary Search Connection (represented in red color) is shown below:
+
+![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/bsc_densenet.jpg?raw=true)
+
+**Binary Search Connections (BSC)** are implemented via **concatenation**, preserving DenseNet’s feature aggregation design. In BSC-DenseNet, additional binary search-inspired connections introduce **repeated inputs from specific earlier layers**, effectively **reinforcing important feature paths**. This selective duplication **promotes stronger gradient flow** through key connections, enhancing representation learning.
+
+--------
+### Implementation in Pytorch
+
 ###### Deep Learning Framework: Pytorch
 
 ###### Tested with python version: >=3.7 and <= 3.13.2
 
-#### Comparing Densenet-121 and BSC-Densenet-121 on CIFAR 100 Dataset
-- Trainable Paramaters in `Densenet-121`: `7,056,356`
-- Trainable Paramaters in `BSC-Densenet-121`: `7,574,756`
-- `Densenet-121` accuracy on test set: `31.29`
-- `BSC-Densenet-121` accuracy on test set: `32.98`
-
-```python
-python3 run.py --device cuda
-```
-Overall Analysis is stored in visual graphs inside `overall_analysis.png`.
-![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/overall_analysis.png?raw=true)
-
-#### Where are the Densenet-121 and BSC-Densenet-121 Models?
 - ##### Densenet-121 Model with BSC [Binary Search Connection]
 ```python
 from densenet import get_BSC_Densenet_121_model
@@ -55,6 +52,23 @@ BSC_DenseNet_121_Model = get_BSC_Densenet_121_model(num_class=100)
 from densenet import get_Densenet_121_model
 DenseNet_121_Model = get_Densenet_121_model(num_class=100)
 ```
+----
+
+### Comparing Densenet-121 and BSC-Densenet-121 on CIFAR 100 Dataset
+- Trainable Paramaters in `Densenet-121`: `7,056,356`
+- Trainable Paramaters in `BSC-Densenet-121`: `7,574,756`
+- `Densenet-121` accuracy on test set: `31.29`
+- `BSC-Densenet-121` accuracy on test set: `32.98`
+
+```python
+python3 run.py --device cuda
+```
+Overall Analysis is stored in visual graphs inside `overall_analysis.png`.
+![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/overall_analysis.png?raw=true)
+
+
+**Note**: To assess whether the improved performance of BSC-DenseNet-121 stems from its architectural design or simply from having more trainable parameters, we conducted a controlled comparison. 
+Specifically, we compared **BSC-DenseNet-121 with a growth rate of 32** (totaling `7,574,756` trainable parameters) **against** a vanilla **DenseNet-121 with a higher growth rate of 48** (resulting in `11,982,153` trainable parameters). Despite having significantly fewer parameters, **BSC-DenseNet-121 outperformed** the **larger DenseNet-121**, suggesting that the binary search connections (BSC) contribute meaningfully to the model's effectiveness rather than mere parameter count.
 
 ```
 Copyright (c) 2023 Ravin Kumar
