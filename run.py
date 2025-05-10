@@ -162,9 +162,9 @@ def train(total_epoch):
         print(f'train_loss : {bsc_densenet_epoch_train_loss} val_loss : {bsc_densenet_epoch_val_loss}')
         print(f'train_accuracy : {bsc_densenet_epoch_train_acc} val_accuracy : {bsc_densenet_epoch_val_acc}')
         if densenet_epoch_val_loss <= densenet_valid_loss_min or densenet_valid_acc_max <= densenet_epoch_val_acc:
-            os.system("rm ./models/densenet/*.pth")
+            os.system("rm ./models/densenet_*.pth")
             print("Densenet: removing stored weights of previous epoch")
-            torch.save(DenseNet.state_dict(), root_path+"models/densenet/"+str(ep+1)+".pth")
+            torch.save(DenseNet.state_dict(), root_path+"models/densenet_"+str(ep+1)+".pth")
             print('Densenet: Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(densenet_valid_loss_min, densenet_epoch_val_loss))
             if densenet_epoch_val_loss <= densenet_valid_loss_min:
                 densenet_valid_loss_min = densenet_epoch_val_loss
@@ -172,9 +172,9 @@ def train(total_epoch):
                 densenet_valid_acc_max = densenet_epoch_val_acc
         
         if bsc_densenet_epoch_val_loss <= bsc_densenet_valid_loss_min or bsc_densenet_valid_acc_max <= bsc_densenet_epoch_val_acc:
-            os.system("rm ./models/bsc_densenet/*.pth")
+            os.system("rm ./models/bsc_densenet_*.pth")
             print("BSC-Densenet: removing stored weights of previous epoch")
-            torch.save(BSC_DenseNet.state_dict(), root_path+"models/bsc_densenet/"+str(ep+1)+".pth")
+            torch.save(BSC_DenseNet.state_dict(), root_path+"models/bsc_densenet_"+str(ep+1)+".pth")
             print('BSC-Densenet: Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(bsc_densenet_valid_loss_min, bsc_densenet_epoch_val_loss))
             if bsc_densenet_epoch_val_loss <= bsc_densenet_valid_loss_min:
                 bsc_densenet_valid_loss_min = bsc_densenet_epoch_val_loss
