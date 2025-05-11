@@ -16,6 +16,7 @@ This repository includes the implementation of **BSC-DenseNet-121** from researc
 - [Osf.io](https://osf.io/preprints/osf/8z42s_v1)
 - [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3545071)
 - [Internet Archive](https://archive.org/details/bsc-densenet)
+- [Medium.com](https://medium.com/@ch.ravinkumar/boosting-densenet-model-with-binary-search-connections-a-smarter-way-to-improve-performance-5a009ea1b693)
 
 **GitHub Repository**: [https://github.com/mr-ravin/BSC-DenseNet](https://github.com/mr-ravin/BSC-DenseNet)
 
