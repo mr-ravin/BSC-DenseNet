@@ -74,7 +74,7 @@ end if
 ```
 +-----------------------------------------------+--------------------------+
 |        Layers     |  Inputs from other layers | Inputs from other layers |
-|                   |      (in DenseNet)        |    (in BSC-Densenet)     |
+|                   |      (in DenseNet)        |    (in BSC-DenseNet)     |
 +-------------------+---------------------------+--------------------------+
 |        Layer 0    |      [ ]                  |   [ ]                    |
 |        Layer 1    |      [0]                  |   [0]                    |
