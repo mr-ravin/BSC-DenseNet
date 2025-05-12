@@ -90,6 +90,7 @@ end if
 
 --------
 ### Implementation in Pytorch
+##### Important: Densenet-121 code is taken from `torchvision`library, from its [github repository](https://github.com/pytorch/vision/blob/main/torchvision/models/densenet.py); Code of DenseNet-121 is modified to create BSC-Densenet-121 presenet in our `densenet.py` file.
 
 ###### Deep Learning Framework: Pytorch
 
