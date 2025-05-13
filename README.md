@@ -113,7 +113,7 @@ DenseNet_121_Model = get_Densenet_121_model(num_class=100)
 #### 🧪 Experiment 1 : DenseNet vs BSC-DenseNet on CIFAR 100 Dataset
 We compared the performance of DenseNet and BSC-DenseNet on Cifar 100 dataset for classification task. Following default values were used for both the models: **Growth rate = 32**, Block Config = (6, 12, 24, 16), and Number of Initial Features = 64.
 
-Important: In this experiment, DenseNet has a **lesser number of trainable parameters** compared to BSC-DenseNet.
+⚠️ **Important**: In this experiment, DenseNet has a **lesser number of trainable parameters** compared to BSC-DenseNet.
 
 ```python
 python3 run.py --device cuda
@@ -134,7 +134,7 @@ Overall Analysis is stored in visual graphs inside `overall_analysis.png`.
 #### 🧪 Experiment 2: DenseNet vs BSC-DenseNet on CIFAR 100 Dataset
 To assess whether the improved performance of BSC-DenseNet-121 stems from its architectural design or simply from having more trainable parameters, we conducted a controlled comparison.
 
-Important: In this experiment, DenseNet has a **greater number of trainable parameters** compared to BSC-DenseNet.
+⚠️ **Important**: In this experiment, DenseNet has a **greater number of trainable parameters** compared to BSC-DenseNet.
 
 Specifically, we compared `BSC-DenseNet-121` with a `growth rate of 32` (totaling `7,574,756 trainable parameters`) against a vanilla `DenseNet-121 with a higher growth rate of 34` (resulting in `7,936,319 trainable parameters`). Despite having significantly fewer parameters, **BSC-DenseNet-121 outperformed the larger DenseNet-121**, suggesting that the binary search connections (BSC) contribute meaningfully to the model's effectiveness rather than mere parameter count.
 
