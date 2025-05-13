@@ -122,12 +122,12 @@ python3 run.py --device cuda
 
 ```
 After Epoch = 20
-+-------------------+------------------------+-------------------------+
-|        Model      |  Trainable Parameters  | Accuracy (on CIFAR-100) |
-+-------------------+------------------------+-------------------------+
-| DenseNet-121      |        7,056,356       |          50.52          |
-| BSC-DenseNet-121  |        7,574,756       |          51.23          |
-+-------------------+------------------------+-------------------------+
++------------------------------------+------------------------+-------------------------+
+|                Model               |  Trainable Parameters  | Accuracy (on CIFAR-100) |
++------------------------------------+------------------------+-------------------------+
+| DenseNet-121      (growth rate=32) |        7,056,356       |          50.52          |
+| BSC-DenseNet-121  (growth rate=32) |        7,574,756       |          51.23          |
++------------------------------------+------------------------+-------------------------+
 ```
 Overall Analysis is stored in visual graphs inside `overall_analysis.png`.
 ![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/overall_analysis.png?raw=true)
@@ -142,12 +142,12 @@ Specifically, we compared `BSC-DenseNet-121` with a `growth rate of 32` (totalin
 
 ```
 After Epoch = 20
-+-------------------------------+------------------------+-------------------------+
-|             Model             |  Trainable Parameters  | Accuracy (on CIFAR-100) |
-+-------------------------------+------------------------+-------------------------+
-| DenseNet-121     (growth=34)  |        7,936,319       |          49.85          |
-| BSC-DenseNet-121 (growth=32)  |        7,574,756       |          50.66          |
-+-------------------------------+------------------------+-------------------------+
++------------------------------------+------------------------+-------------------------+
+|               Model                |  Trainable Parameters  | Accuracy (on CIFAR-100) |
++------------------------------------+------------------------+-------------------------+
+| DenseNet-121     (growth rate=34)  |        7,936,319       |          49.85          |
+| BSC-DenseNet-121 (growth rate=32)  |        7,574,756       |          50.66          |
++------------------------------------+------------------------+-------------------------+
 ```
 Overall Analysis is stored in visual graphs inside `overall_analysis_2.png`.
 ![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/overall_analysis_2.png?raw=true)
