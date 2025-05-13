@@ -15,7 +15,7 @@ from utils import plot_graph
 
 parser = argparse.ArgumentParser(description = "Pytorch BSC-DENSENET 121 model for multi-class classification ")
 parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 3e-3) # worked better for Densenet
-parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 4e-3) # worked better for BSC Densenet
+parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 3e-3) # worked better for BSC Densenet
 parser.add_argument('-dim','--dim', default=32)
 parser.add_argument('-ep', '--epoch', default = 20)
 parser.add_argument('-m', '--mode', default="train")
@@ -54,20 +54,25 @@ def label_wise_accuracy(output, target):
 def train(total_epoch):
     loss_fn = nn.CrossEntropyLoss()
     densenet_optimizer = optim.Adam(DenseNet.parameters(), lr=LR_DENSENET)
-    densenet_scheduler = StepLR(densenet_optimizer, step_size=3, gamma=0.05)
+    densenet_scheduler = StepLR(densenet_optimizer, step_size=3, gamma=0.5)
     bsc_densenet_optimizer = optim.Adam(BSC_DenseNet.parameters(), lr=LR_BSC_DENSENET)
-    bsc_densenet_scheduler = StepLR(bsc_densenet_optimizer, step_size=3, gamma=0.05)
+    bsc_densenet_scheduler = StepLR(bsc_densenet_optimizer, step_size=3, gamma=0.5)
     # Not using data-augmentation
-    transform_train = A.Compose([  A.Resize(height=DIM, width=DIM),
-                                A.HorizontalFlip(p=0.5),
-                                A.Rotate(limit=30,p=0.5),
-                                A.Normalize(mean=[0, 0, 0], std=[1, 1, 1], max_pixel_value=255,),
-                                ToTensorV2(),
-                                ],)
-    transform_test = A.Compose([   A.Resize(height=DIM, width=DIM),
-                                A.Normalize(mean=[0, 0, 0], std=[1, 1, 1], max_pixel_value=255,),
-                                ToTensorV2(),
-                                ],)
+    transform_train = A.Compose([
+        A.Resize(height=DIM, width=DIM),
+        A.PadIfNeeded(min_height=DIM + 4, min_width=DIM + 4, border_mode=0, value=0),
+        A.RandomCrop(height=DIM, width=DIM),
+        A.HorizontalFlip(p=0.5),
+        A.Rotate(limit=15, p=0.3),  # Reduced angle to avoid distortion
+        A.CoarseDropout(max_holes=1, max_height=8, max_width=8, p=0.3),  # Optional
+        A.Normalize(mean=[0.5071, 0.4865, 0.4409], std=[0.2673, 0.2564, 0.2761]),
+        ToTensorV2(),
+        ])
+    transform_test = A.Compose([
+        A.Resize(height=DIM, width=DIM),
+        A.Normalize(mean=[0.5071, 0.4865, 0.4409], std=[0.2673, 0.2564, 0.2761]),
+        ToTensorV2(),
+    ])
     training_data = CIFAR100_Dataset(transform_train, device = DEVICE, mode="train")
     test_data = CIFAR100_Dataset(transform_test, device = DEVICE, mode="test")
     train_dataloader = DataLoader(training_data, batch_size=120, shuffle=True, pin_memory=True if DEVICE == "cpu" else False)
@@ -166,9 +171,9 @@ def train(total_epoch):
             print("Densenet: removing stored weights of previous epoch")
             torch.save(DenseNet.state_dict(), root_path+"models/densenet_"+str(ep+1)+".pth")
             print('Densenet: Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(densenet_valid_loss_min, densenet_epoch_val_loss))
-            if densenet_epoch_val_loss <= densenet_valid_loss_min:
+            if densenet_epoch_val_loss < densenet_valid_loss_min:
                 densenet_valid_loss_min = densenet_epoch_val_loss
-            if densenet_valid_acc_max <= densenet_epoch_val_acc:
+            if densenet_valid_acc_max < densenet_epoch_val_acc:
                 densenet_valid_acc_max = densenet_epoch_val_acc
         
         if bsc_densenet_epoch_val_loss <= bsc_densenet_valid_loss_min or bsc_densenet_valid_acc_max <= bsc_densenet_epoch_val_acc:
