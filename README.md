@@ -111,14 +111,14 @@ DenseNet_121_Model = get_Densenet_121_model(num_class=100)
 ---
 ### 📊 Performance Breakdown
 
+```python
+python3 run.py --device cuda
+```
+
 #### 🧪 Experiment 1 : DenseNet vs BSC-DenseNet on CIFAR 100 Dataset
 We compared the performance of DenseNet and BSC-DenseNet on Cifar 100 dataset for classification task. Following default values were used for both the models: **Growth rate = 32**, Block Config = (6, 12, 24, 16), and Number of Initial Features = 64.
 
 ⚠️ **Important**: In this experiment, DenseNet has a **lesser number of trainable parameters** compared to BSC-DenseNet.
-
-```python
-python3 run.py --device cuda
-```
 
 ```
 After Epoch = 20
