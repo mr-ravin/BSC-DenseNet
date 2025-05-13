@@ -181,9 +181,9 @@ def train(total_epoch):
             print("BSC-Densenet: removing stored weights of previous epoch")
             torch.save(BSC_DenseNet.state_dict(), root_path+"models/bsc_densenet_"+str(ep+1)+".pth")
             print('BSC-Densenet: Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(bsc_densenet_valid_loss_min, bsc_densenet_epoch_val_loss))
-            if bsc_densenet_epoch_val_loss <= bsc_densenet_valid_loss_min:
+            if bsc_densenet_epoch_val_loss < bsc_densenet_valid_loss_min:
                 bsc_densenet_valid_loss_min = bsc_densenet_epoch_val_loss
-            if bsc_densenet_valid_acc_max <= bsc_densenet_epoch_val_acc:
+            if bsc_densenet_valid_acc_max < bsc_densenet_epoch_val_acc:
                 bsc_densenet_valid_acc_max = bsc_densenet_epoch_val_acc
 
         densenet_scheduler.step()
