@@ -84,6 +84,7 @@ end if
 |        Layer 5    |      [0, 1, 2, 3, 4]      |   [0, 1, 2, 3, 4]        |
 |        Layer 6    |      [0, 1, 2, 3, 4, 5]   |   [0, 1, 2, 3, 4, 5, 4]  |
 +-----------------------------------------------+--------------------------+
+Note: In BSC-DenseNet, Layer 3 has two inputs from Layer 1, and the Layer 6 has two inputs from Layer 4.
 ```
 
 **Binary Search Connections (BSC)** are implemented via **concatenation**, preserving DenseNet’s feature aggregation design. In BSC-DenseNet, additional binary search-inspired connections introduce **repeated inputs from specific earlier layers**, effectively **reinforcing important feature paths**. This selective duplication **promotes stronger gradient flow** through key connections, enhancing representation learning.
@@ -123,8 +124,8 @@ python3 run.py --device cuda
 +-------------------+------------------------+-------------------------+
 |        Model      |  Trainable Parameters  | Accuracy (on CIFAR-100) |
 +-------------------+------------------------+-------------------------+
-| DenseNet-121      |        7,056,356       |          31.29          |     
-| BSC-DenseNet-121  |        7,574,756       |          32.98          |
+| DenseNet-121      |        7,056,356       |          50.52          |
+| BSC-DenseNet-121  |        7,574,756       |          51.23          |
 +-------------------+------------------------+-------------------------+
 ```
 Overall Analysis is stored in visual graphs inside `overall_analysis.png`.
