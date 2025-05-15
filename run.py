@@ -14,8 +14,8 @@ from densenet import get_densenet_models
 from utils import plot_graph
 
 parser = argparse.ArgumentParser(description = "Pytorch BSC-DENSENET 121 model for multi-class classification ")
-parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 3e-3) # worked better for Densenet
-parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 3e-3) # worked better for BSC Densenet
+parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 4e-3) # worked better for Densenet
+parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 4e-3) # worked better for BSC Densenet
 parser.add_argument('-dim','--dim', default=32)
 parser.add_argument('-ep', '--epoch', default = 20)
 parser.add_argument('-m', '--mode', default="train")
