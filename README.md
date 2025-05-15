@@ -129,8 +129,8 @@ After Epoch = 20
 | BSC-DenseNet-121  (growth rate=32) |        7,574,756       |          51.23          |
 +------------------------------------+------------------------+-------------------------+
 ```
-Overall Analysis is stored in visual graphs inside `overall_analysis.png`.
-![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/overall_analysis.png?raw=true)
+Overall Analysis is stored in visual graphs inside `ExperimentResults/EXP1_overall_analysis.png`.
+![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/ExperimentResults/EXP1_overall_analysis.png?raw=true)
 
 
 #### 🧪 Experiment 2: DenseNet vs BSC-DenseNet on CIFAR 100 Dataset
@@ -149,8 +149,8 @@ After Epoch = 20
 | BSC-DenseNet-121 (growth rate=32)  |        7,574,756       |          53.22          |
 +------------------------------------+------------------------+-------------------------+
 ```
-Overall Analysis is stored in visual graphs inside `overall_analysis_2.png`.
-![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/overall_analysis_2.png?raw=true)
+Overall Analysis is stored in visual graphs inside `ExperimentResults/EXP2_overall_analysis.png`.
+![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/ExperimentResults/EXP2_overall_analysis.png?raw=true)
 
 **In short**: BSC-DenseNet learns faster, generalizes better, and resists overfitting than DenseNet.
 
