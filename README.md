@@ -71,11 +71,9 @@ end if
 # Binary_Search_Connection(0, number_of_layers - 1, list_keys)
 ```
 
-```
-+-----------------------------------------------+--------------------------+
-|        Layers     |  Inputs from other layers | Inputs from other layers |
-|                   |      (in DenseNet)        |    (in BSC-DenseNet)     |
-+-------------------+---------------------------+--------------------------+
+
+|        Layers     |  Inputs from other layers (in DenseNet) | Inputs from other layers (in BSC-DenseNet) |
+|-------------------|---------------------------|--------------------------|
 |        Layer 0    |      [ ]                  |   [ ]                    |
 |        Layer 1    |      [0]                  |   [0]                    |
 |        Layer 2    |      [0, 1]               |   [0, 1]                 |
@@ -83,7 +81,8 @@ end if
 |        Layer 4    |      [0, 1, 2, 3]         |   [0, 1, 2, 3]           |
 |        Layer 5    |      [0, 1, 2, 3, 4]      |   [0, 1, 2, 3, 4]        |
 |        Layer 6    |      [0, 1, 2, 3, 4, 5]   |   [0, 1, 2, 3, 4, 5, 4]  |
-+-----------------------------------------------+--------------------------+
+
+```
 Note: In BSC-DenseNet, Layer 3 has two inputs from Layer 1, and the Layer 6 has two inputs from Layer 4.
 ```
 
@@ -121,15 +120,13 @@ We compared the performance of DenseNet and BSC-DenseNet on Cifar 100 dataset fo
 
 ⚠️ **Important**: In this experiment, DenseNet has a **lesser number of trainable parameters** compared to BSC-DenseNet.
 
-```
+
 After Epoch = 20
-+------------------------------------+------------------------+-------------------------+
 |                Model               |  Trainable Parameters  | Accuracy (on CIFAR-100) |
-+------------------------------------+------------------------+-------------------------+
-| DenseNet-121      (growth rate=32) |        7,056,356       |          50.52          |
-| BSC-DenseNet-121  (growth rate=32) |        7,574,756       |          51.23          |
-+------------------------------------+------------------------+-------------------------+
-```
+|------------------------------------|------------------------|-------------------------|
+| DenseNet-121      (growth rate=32) |        7,056,356       |          50.52 %         |
+| BSC-DenseNet-121  (growth rate=32) |        7,574,756       |          51.23 %         |
+
 Overall Analysis is stored in visual graphs inside `ExperimentResults/EXP1_overall_analysis.png`.
 ![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/ExperimentResults/EXP1_overall_analysis.png?raw=true)
 
@@ -141,15 +138,13 @@ To assess whether the improved performance of BSC-DenseNet-121 stems from its ar
 
 Specifically, we compared `BSC-DenseNet-121` with a `growth rate of 32` (totaling `7,574,756 trainable parameters`) against a vanilla `DenseNet-121 with a higher growth rate of 34` (resulting in `7,936,319 trainable parameters`). Despite having significantly fewer parameters, **BSC-DenseNet-121 outperformed the larger DenseNet-121**, suggesting that the binary search connections (BSC) contribute meaningfully to the model's effectiveness rather than mere parameter count.
 
-```
+
 After Epoch = 20
-+------------------------------------+------------------------+-------------------------+
 |               Model                |  Trainable Parameters  | Accuracy (on CIFAR-100) |
-+------------------------------------+------------------------+-------------------------+
-| DenseNet-121     (growth rate=34)  |        7,936,319       |          52.63          |
-| BSC-DenseNet-121 (growth rate=32)  |        7,574,756       |          53.22          |
-+------------------------------------+------------------------+-------------------------+
-```
+|------------------------------------|------------------------|-------------------------|
+| DenseNet-121     (growth rate=34)  |        7,936,319       |          52.63 %         |
+| BSC-DenseNet-121 (growth rate=32)  |        7,574,756       |          53.22 %         |
+
 Overall Analysis is stored in visual graphs inside `ExperimentResults/EXP2_overall_analysis.png`.
 ![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/ExperimentResults/EXP2_overall_analysis.png?raw=true)
 
