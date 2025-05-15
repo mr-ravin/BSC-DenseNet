@@ -145,8 +145,8 @@ After Epoch = 20
 +------------------------------------+------------------------+-------------------------+
 |               Model                |  Trainable Parameters  | Accuracy (on CIFAR-100) |
 +------------------------------------+------------------------+-------------------------+
-| DenseNet-121     (growth rate=34)  |        7,936,319       |          49.85          |
-| BSC-DenseNet-121 (growth rate=32)  |        7,574,756       |          50.66          |
+| DenseNet-121     (growth rate=34)  |        7,936,319       |          52.63          |
+| BSC-DenseNet-121 (growth rate=32)  |        7,574,756       |          53.22          |
 +------------------------------------+------------------------+-------------------------+
 ```
 Overall Analysis is stored in visual graphs inside `overall_analysis_2.png`.
