@@ -155,6 +155,14 @@ Overall Analysis is stored in visual graphs inside `ExperimentResults/EXP2_overa
 
 **In short**: BSC-DenseNet learns faster, generalizes better, and resists overfitting than DenseNet.
 
+---
+
+#### Conclusion
+
+This paper proposed Binary Search Connections (BSC) as a novel architectural paradigm for deep convolutional networks, leveraging recursive logic inspired by binary search to guide feature propagation. Unlike DenseNet’s uniform all-to-all connectivity, BSC introduces structured and selective recurrence—intentionally repeating key inputs to reinforce critical features at deeper layers. This approach encourages efficient gradient flow and focused feature learning while avoiding indiscriminate connections. Experimental results on the CIFAR-100 dataset demonstrate that BSC-DenseNet achieves superior performance even when compared to larger parameter-count DenseNet variants, validating that the architectural innovation, not mere capacity, underlies the improvement. BSC-DenseNet thus offers a principled mechanism for hierarchical feature emphasis, marking a conceptual step forward in network design.
+
+---
+
 ```
 Copyright (c) 2023 Ravin Kumar
 Website: https://mr-ravin.github.io
