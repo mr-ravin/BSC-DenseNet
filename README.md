@@ -95,7 +95,7 @@ Note: In BSC-DenseNet, Layer 3 has two inputs from Layer 1, and the Layer 6 has 
 
 ###### Deep Learning Framework: Pytorch
 
-###### Tested with python version: >=3.7 and <= 3.13.2
+###### Tested with python version: >=3.7 and <= 3.13.2 on Ubuntu.
 
 - ##### Densenet-121 Model with BSC [Binary Search Connection]
 ```python
@@ -110,6 +110,7 @@ DenseNet_121_Model = get_Densenet_121_model(num_class=100)
 ```
 ---
 ### 📊 Performance Breakdown
+Run the below terminal command to train and compare performance of BSC-DenseNet-121 with DenseNet-121 on CIFAR-1OO Dataset.
 
 ```python
 python3 run.py --device cuda
