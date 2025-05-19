@@ -18,7 +18,7 @@ from utils import plot_graph
 parser = argparse.ArgumentParser(description = "Pytorch BSC-DENSENET 121 model for multi-class classification.")
 parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 4e-3) # worked better for Densenet
 parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 4e-3) # worked better for BSC Densenet
-parser.add_argument('-sch', '--use_scheduler', default="False", help="Use StepLR scheduler during training")
+parser.add_argument('-sch', '--use_scheduler', default="True", help="Use StepLR scheduler during training")
 parser.add_argument('-dim','--dim', default=32)
 parser.add_argument('-ep', '--epoch', default = 50)
 parser.add_argument('-m', '--mode', default="train")
