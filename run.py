@@ -15,7 +15,7 @@ from utils import plot_graph
 
 # Note: To see better comparison of DenseNet vs BSC-DenseNet, disable the StepLR by setting --use_scheduler to False
 
-parser = argparse.ArgumentParser(description = "Pytorch BSC-DENSENET 121 model for multi-class classification ")
+parser = argparse.ArgumentParser(description = "Pytorch BSC-DENSENET 121 model for multi-class classification.")
 parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 4e-3) # worked better for Densenet
 parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 4e-3) # worked better for BSC Densenet
 parser.add_argument('-sch', '--use_scheduler', default="False", help="Use StepLR scheduler during training")
