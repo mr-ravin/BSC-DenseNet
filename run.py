@@ -13,11 +13,14 @@ from dataloader import CIFAR100_Dataset
 from densenet import get_densenet_models
 from utils import plot_graph
 
+# Note: To see better comparison of DenseNet vs BSC-DenseNet, disable the StepLR by setting --use_scheduler to False
+
 parser = argparse.ArgumentParser(description = "Pytorch BSC-DENSENET 121 model for multi-class classification ")
 parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 4e-3) # worked better for Densenet
 parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 4e-3) # worked better for BSC Densenet
+parser.add_argument('-sch', '--use_scheduler', default="False", help="Use StepLR scheduler during training")
 parser.add_argument('-dim','--dim', default=32)
-parser.add_argument('-ep', '--epoch', default = 20)
+parser.add_argument('-ep', '--epoch', default = 50)
 parser.add_argument('-m', '--mode', default="train")
 parser.add_argument('-c', '--num_classes', default=100)
 parser.add_argument('-d', '--device', default="cpu")
@@ -29,6 +32,7 @@ EPOCH = int(args.epoch)
 MODE = args.mode
 DEVICE = args.device
 NUM_CLASSES = int(args.num_classes)
+USE_SCHEDULER = args.use_scheduler.lower()
 
 root_path = "./"
 DenseNet, BSC_DenseNet = get_densenet_models(NUM_CLASSES) # returns both Densenet-121 and BSC-Densenet-121 models So that we can compare on CIFAR 100
@@ -54,9 +58,10 @@ def label_wise_accuracy(output, target):
 def train(total_epoch):
     loss_fn = nn.CrossEntropyLoss()
     densenet_optimizer = optim.Adam(DenseNet.parameters(), lr=LR_DENSENET)
-    densenet_scheduler = StepLR(densenet_optimizer, step_size=3, gamma=0.5)
     bsc_densenet_optimizer = optim.Adam(BSC_DenseNet.parameters(), lr=LR_BSC_DENSENET)
-    bsc_densenet_scheduler = StepLR(bsc_densenet_optimizer, step_size=3, gamma=0.5)
+    if USE_SCHEDULER != "false":
+        densenet_scheduler = StepLR(densenet_optimizer, step_size=3, gamma=0.5)
+        bsc_densenet_scheduler = StepLR(bsc_densenet_optimizer, step_size=3, gamma=0.5)
     # Not using data-augmentation
     transform_train = A.Compose([
         A.Resize(height=DIM, width=DIM),
@@ -181,13 +186,14 @@ def train(total_epoch):
             print("BSC-Densenet: removing stored weights of previous epoch")
             torch.save(BSC_DenseNet.state_dict(), root_path+"models/bsc_densenet_"+str(ep+1)+".pth")
             print('BSC-Densenet: Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(bsc_densenet_valid_loss_min, bsc_densenet_epoch_val_loss))
-            if bsc_densenet_epoch_val_loss < bsc_densenet_valid_loss_min:
+            if bsc_densenet_epoch_val_loss <= bsc_densenet_valid_loss_min:
                 bsc_densenet_valid_loss_min = bsc_densenet_epoch_val_loss
-            if bsc_densenet_valid_acc_max < bsc_densenet_epoch_val_acc:
+            if bsc_densenet_valid_acc_max <= bsc_densenet_epoch_val_acc:
                 bsc_densenet_valid_acc_max = bsc_densenet_epoch_val_acc
-
-        densenet_scheduler.step()
-        bsc_densenet_scheduler.step()
+        
+        if USE_SCHEDULER != "false":
+            densenet_scheduler.step()
+            bsc_densenet_scheduler.step()
 
     x_data = [i for i in range(1,EPOCH+1)]
     plot_graph(root_path, x_data, densenet_epoch_tr_loss, bsc_densenet_epoch_tr_loss, densenet_epoch_vl_loss, bsc_densenet_epoch_vl_loss, densenet_epoch_tr_acc, bsc_densenet_epoch_tr_acc, densenet_epoch_vl_acc, bsc_densenet_epoch_vl_acc)
