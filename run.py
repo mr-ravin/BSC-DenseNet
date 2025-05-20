@@ -34,6 +34,8 @@ DEVICE = args.device
 NUM_CLASSES = int(args.num_classes)
 USE_SCHEDULER = args.use_scheduler.lower()
 
+os.mkdir("./models")
+
 if USE_SCHEDULER == "true":
     print("--use_scheduler is enabled.")
 else:
@@ -91,7 +93,7 @@ def train(total_epoch):
     densenet_epoch_tr_acc, densenet_epoch_vl_acc = [], []
     bsc_densenet_epoch_tr_loss, bsc_densenet_epoch_vl_loss = [],[]
     bsc_densenet_epoch_tr_acc, bsc_densenet_epoch_vl_acc = [], []
-    densenet_valid_loss_min, bsc_densenet_valid_loss_min = np.Inf, np.Inf
+    densenet_valid_loss_min, bsc_densenet_valid_loss_min = np.inf, np.inf
     densenet_valid_acc_max, bsc_densenet_valid_acc_max = -1, -1
     for ep in range(total_epoch):
         densenet_train_acc, bsc_densenet_train_acc = 0.0, 0.0
