@@ -34,7 +34,8 @@ DEVICE = args.device
 NUM_CLASSES = int(args.num_classes)
 USE_SCHEDULER = args.use_scheduler.lower()
 
-os.mkdir("./models")
+if not os.path.isdir("./models"):
+    os.mkdir("./models")
 
 if USE_SCHEDULER == "true":
     print("--use_scheduler is enabled.")
