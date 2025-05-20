@@ -34,6 +34,11 @@ DEVICE = args.device
 NUM_CLASSES = int(args.num_classes)
 USE_SCHEDULER = args.use_scheduler.lower()
 
+if USE_SCHEDULER == "true":
+    print("--use_scheduler is enabled.")
+else:
+    print("--use_scheduler is disabled.")
+
 root_path = "./"
 DenseNet, BSC_DenseNet = get_densenet_models(NUM_CLASSES) # returns both Densenet-121 and BSC-Densenet-121 models So that we can compare on CIFAR 100
 
