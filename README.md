@@ -114,7 +114,11 @@ Run the below terminal command to train and compare performance of BSC-DenseNet-
 ```python
 python3 run.py --device cuda
 ```
+###### Note: To see better comparison of DenseNet vs BSC-DenseNet, disable the StepLR by setting --use_scheduler to False. (Default is set to True)
 
+```python
+python3 run.py --device cuda --use_scheduler False
+```
 #### 🧪 Experiment 1 : DenseNet vs BSC-DenseNet on CIFAR 100 Dataset
 We compared the performance of DenseNet and BSC-DenseNet on Cifar 100 dataset for classification task. Following default values were used for both the models: **Growth rate = 32**, Block Config = (6, 12, 24, 16), and Number of Initial Features = 64.
 
