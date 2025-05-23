@@ -73,7 +73,6 @@ def train(total_epoch):
     # Not using data-augmentation
     transform_train = A.Compose([
         A.Resize(height=DIM, width=DIM),
-        A.PadIfNeeded(min_height=DIM + 4, min_width=DIM + 4, border_mode=0, value=0),
         A.RandomCrop(height=DIM, width=DIM),
         A.HorizontalFlip(p=0.5),
         A.Rotate(limit=15, p=0.3),  # Reduced angle to avoid distortion
