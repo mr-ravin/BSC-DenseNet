@@ -114,7 +114,7 @@ Run the below terminal command to train and compare performance of BSC-DenseNet-
 ```python
 python3 run.py --device cuda
 ```
-###### Note: To see better comparison of DenseNet vs BSC-DenseNet, disable the StepLR by setting --use_scheduler to False. (Default is set to True)
+###### Note: To Compare DenseNet vs BSC-DenseNet with a constant LR (instead of decreasing LR), please disable the StepLR by using  --use_scheduler to False. (Default is set to False)
 
 ```python
 python3 run.py --device cuda --use_scheduler False
