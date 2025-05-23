@@ -76,7 +76,6 @@ def train(total_epoch):
         A.RandomCrop(height=DIM, width=DIM),
         A.HorizontalFlip(p=0.5),
         A.Rotate(limit=15, p=0.3),  # Reduced angle to avoid distortion
-        A.CoarseDropout(max_holes=1, max_height=8, max_width=8, p=0.3),  # Optional
         A.Normalize(mean=[0.5071, 0.4865, 0.4409], std=[0.2673, 0.2564, 0.2761]),
         ToTensorV2(),
         ])
