@@ -14,7 +14,7 @@ from dataloader import CIFAR100_Dataset
 from densenet import get_densenet_models
 from utils import plot_graph
 
-# Note: To Compare DenseNet vs BSC-DenseNet with a constant LR (instead of decreasing LR), please disable the StepLR by using  --use_scheduler to False. (Default is set to True)
+# Note: To compare DenseNet vs BSC-DenseNet with a constant LR (instead of decreasing LR), please disable the StepLR by using  --use_scheduler to False. (Default is set to True)
 
 parser = argparse.ArgumentParser(description = "Pytorch BSC-DENSENET 121 model for multi-class classification.")
 parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 4e-3) # worked better for Densenet
