@@ -21,10 +21,10 @@ parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 4e-3) 
 parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 4e-3) # worked better for BSC Densenet
 parser.add_argument('-sch', '--use_scheduler', default="True", help="Use StepLR scheduler during training")
 parser.add_argument('-dim','--dim', default=32)
-parser.add_argument('-ep', '--epoch', default = 50)
+parser.add_argument('-ep', '--epoch', default = 30)
 parser.add_argument('-m', '--mode', default="train")
 parser.add_argument('-c', '--num_classes', default=100)
-parser.add_argument('-d', '--device', default="cpu")
+parser.add_argument('-d', '--device', default="cuda")
 args = parser.parse_args()
 LR_DENSENET = args.learning_rate_densenet
 LR_BSC_DENSENET = args.learning_rate_bsc_densenet
