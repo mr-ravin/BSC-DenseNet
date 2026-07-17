@@ -28,12 +28,12 @@ parser.add_argument('-m', '--mode', default="train")
 parser.add_argument('-c', '--num_classes', default=100)
 parser.add_argument('-d', '--device', default="cuda")
 args = parser.parse_args()
-LR_DENSENET = args.learning_rate_densenet
-LR_BSC_DENSENET = args.learning_rate_bsc_densenet
-DIM = args.dim
+LR_DENSENET = float(args.learning_rate_densenet)
+LR_BSC_DENSENET = float(args.learning_rate_bsc_densenet)
+DIM = int(args.dim)
 EPOCH = int(args.epoch)
-MODE = args.mode
-DEVICE = args.device
+MODE = str(args.mode)
+DEVICE = str(args.device)
 NUM_CLASSES = int(args.num_classes)
 USE_SCHEDULER = args.use_scheduler.lower()
 DENSENET_GROWTH_RATE = int(args.densenet_growth_rate)
@@ -101,8 +101,8 @@ def train(total_epoch):
     ])
     training_data = CIFAR100_Dataset(transform_train, device = DEVICE, mode="train")
     test_data = CIFAR100_Dataset(transform_test, device = DEVICE, mode="test")
-    train_dataloader = DataLoader(training_data, batch_size=120, shuffle=True, pin_memory=True if DEVICE == "cpu" else False)
-    test_dataloader = DataLoader(test_data, batch_size=120, shuffle=True, pin_memory=True if DEVICE == "cpu" else False)
+    train_dataloader = DataLoader(training_data, batch_size=100, shuffle=True, pin_memory=True if DEVICE == "cpu" else False)
+    test_dataloader = DataLoader(test_data, batch_size=100, shuffle=True, pin_memory=True if DEVICE == "cpu" else False)
     densenet_epoch_tr_loss, densenet_epoch_vl_loss = [],[]
     densenet_epoch_tr_acc, densenet_epoch_vl_acc = [], []
     bsc_densenet_epoch_tr_loss, bsc_densenet_epoch_vl_loss = [],[]
