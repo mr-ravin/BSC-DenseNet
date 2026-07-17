@@ -293,17 +293,22 @@ def initialise_model(
     print("Total parameters in Densenet 121 when Binary Search Connections is set "+str(binary_search_connections)+": ",get_n_params(model))
     return model
 
-def get_BSC_Densenet_121_model(num_class):
-    BSC_DenseNet_model = initialise_model(32, (6, 12, 24, 16), 64, num_classes=num_class, binary_search_connections=True)
+def get_BSC_Densenet_121_model(num_class, bsc_densenet_growth_rate=32):
+    BSC_DenseNet_model = initialise_model(bsc_densenet_growth_rate, (6, 12, 24, 16), 64, num_classes=num_class, binary_search_connections=True)
     return BSC_DenseNet_model
 
-def get_Densenet_121_model(num_class):
-    DenseNet_model = initialise_model(32, (6, 12, 24, 16), 64, num_classes=num_class, binary_search_connections=False)
+def get_Densenet_121_model(num_class, densenet_growth_rate=32):
+    DenseNet_model = initialise_model(densenet_growth_rate, (6, 12, 24, 16), 64, num_classes=num_class, binary_search_connections=False)
     return DenseNet_model
 
-def get_densenet_models(num_class):
-    # note: Here we are comparing only a single dense block with 7 layers. To establish the effectiveness of BSC-Densenet
-    # Inorder to use Densenet 121, call: 
-    DenseNet = get_Densenet_121_model(num_class)
-    BSC_DenseNet = get_BSC_Densenet_121_model(num_class)
+def get_densenet_models(num_class, densenet_growth_rate=32, bsc_densenet_growth_rate=32):
+    """A fixed global seed makes initialization reproducible only for the same
+       model-construction sequence. Constructing DenseNet first consumes random
+       values from PyTorch's RNG. Therefore, changing DenseNet's growth rate or
+       changing the model-construction order may give BSC-DenseNet different
+       initial weights, even when the same global seed is used. This is expected
+       because the experimental settings are executed as independent runs."""
+  
+    DenseNet = get_Densenet_121_model(num_class, densenet_growth_rate)
+    BSC_DenseNet = get_BSC_Densenet_121_model(num_class, bsc_densenet_growth_rate)
     return DenseNet, BSC_DenseNet
