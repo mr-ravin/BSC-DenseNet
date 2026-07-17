@@ -16,10 +16,12 @@ from utils import plot_graph
 
 # Note: To compare DenseNet vs BSC-DenseNet with a constant LR (instead of decreasing LR), please disable the StepLR by using  --use_scheduler to False. (Default is set to True)
 
-parser = argparse.ArgumentParser(description = "Pytorch BSC-DENSENET 121 model for multi-class classification.")
-parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 4e-3) # worked better for Densenet
-parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 4e-3) # worked better for BSC Densenet
+parser = argparse.ArgumentParser(description = "Pytorch BSC-DENSENET-121 model for multi-class classification.")
+parser.add_argument('-lr_densenet', '--learning_rate_densenet', default = 4e-3) # worked better for Densenet-121
+parser.add_argument('-lr_bsc_densenet', '--learning_rate_bsc_densenet', default = 4e-3) # worked better for BSC-Densenet-121
 parser.add_argument('-sch', '--use_scheduler', default="True", help="Use StepLR scheduler during training")
+parser.add_argument('-d_gr', '--densenet_growth_rate', default="32", help="Growth rate of DenseNet-121")
+parser.add_argument('-bsc_gr', '--bsc_densenet_growth_rate', default="32", help="Growth rate of BSC-DenseNet-121")
 parser.add_argument('-dim','--dim', default=32)
 parser.add_argument('-ep', '--epoch', default = 30)
 parser.add_argument('-m', '--mode', default="train")
@@ -34,6 +36,8 @@ MODE = args.mode
 DEVICE = args.device
 NUM_CLASSES = int(args.num_classes)
 USE_SCHEDULER = args.use_scheduler.lower()
+DENSENET_GROWTH_RATE = int(args.densenet_growth_rate)
+BSC_DENSENET_GROWTH_RATE = int(args.bsc_densenet_growth_rate)
 
 def set_seed(seed=42):
     random.seed(seed)
@@ -54,7 +58,7 @@ else:
     print("--use_scheduler is disabled.")
 
 root_path = "./"
-DenseNet, BSC_DenseNet = get_densenet_models(NUM_CLASSES) # returns both Densenet-121 and BSC-Densenet-121 models So that we can compare on CIFAR 100
+DenseNet, BSC_DenseNet = get_densenet_models(NUM_CLASSES, DENSENET_GROWTH_RATE, BSC_DENSENET_GROWTH_RATE) # returns both Densenet-121 and BSC-Densenet-121 models So that we can compare on CIFAR 100
 
 if DEVICE != "cpu":
     DenseNet.to(DEVICE)
