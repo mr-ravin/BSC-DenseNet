@@ -117,12 +117,12 @@ DenseNet_121_Model = get_Densenet_121_model(num_class=100)
 
 Run the terminal command given below to train and compare performance of BSC-DenseNet-121 with DenseNet-121 on CIFAR-100 Dataset.
 
-```python
+```bash
 python3 run.py --epoch 20 --device cuda
 ```
 ##### Note: To compare DenseNet vs BSC-DenseNet with a constant LR (instead of decreasing LR), please disable the StepLR by using  --use_scheduler to False. (Default is set to True)
 
-```python
+```bash
 python3 run.py --epoch 20 --device cuda --use_scheduler False
 ```
 #### 🧪 Experiment 1 : DenseNet vs BSC-DenseNet on CIFAR-100 Dataset
