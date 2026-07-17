@@ -1,5 +1,8 @@
-## Implementation of Binary Search Connections in DenseNet (i.e. BSC-DenseNet) using Pytorch
-This repository includes the implementation of **BSC-DenseNet-121** from research paper `"Adding Binary Search Connections to Improve DenseNet Performance"`, published in **Elsevier-SSRN conference proceedings of NGCT 2019**. The base code of openly available DenseNet is also present in this repository for comparing our BSC-DenseNet on the CIFAR-100 dataset.
+## Implementation of Binary Search Connections in DenseNet (i.e., BSC-DenseNet) using PyTorch
+
+This repository includes the implementation of **BSC-DenseNet-121** from the research paper `"Adding Binary Search Connections to Improve DenseNet Performance"`, published in **Elsevier-SSRN conference proceedings of NGCT 2019**.
+
+The base code of the openly available DenseNet is also present in this repository for comparing it with BSC-DenseNet on the CIFAR-100 dataset.
 
 **Paper Title**: Adding Binary Search Connections to Improve DenseNet Performance
 
@@ -9,10 +12,10 @@ This repository includes the implementation of **BSC-DenseNet-121** from researc
 
 **Published Paper**: [click here](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3545071)  <!-- Elsevier-SSRN conference proceedings of NGCT 2019 -->
 
-**Doi**: [DOI Link of Paper](http://dx.doi.org/10.2139/ssrn.3545071)
+**DOI**: [DOI Link of Paper](http://dx.doi.org/10.2139/ssrn.3545071)
 
 **Other Sources**:
-- [Research Gate](https://www.researchgate.net/publication/339673672_Adding_Binary_Search_Connections_to_Improve_DenseNet_Performance), [Research Gate - Preprint](https://www.researchgate.net/publication/382385286_Adding_binary_search_connections_to_improve_DenseNet_performance)
+- [ResearchGate](https://www.researchgate.net/publication/339673672_Adding_Binary_Search_Connections_to_Improve_DenseNet_Performance), [ResearchGate - Preprint](https://www.researchgate.net/publication/382385286_Adding_binary_search_connections_to_improve_DenseNet_performance)
 - [Osf.io](https://osf.io/preprints/osf/8z42s_v2)
 - [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3545071)
 - [Internet Archive](https://archive.org/details/bsc-densenet)
@@ -21,7 +24,7 @@ This repository includes the implementation of **BSC-DenseNet-121** from researc
 **GitHub Repository**: [https://github.com/mr-ravin/BSC-DenseNet](https://github.com/mr-ravin/BSC-DenseNet)
 
 🔍 **Note on BSC Connections**:
-Binary Search Connections (BSC) introduced in this paper are implemented via **concatenation**, not addition. BSC DenseNet has extra connections within the densely connected block, preserving DenseNet’s feature aggregation mechanism and enhancing feature representation at each layer. 
+Binary Search Connections (BSC) introduced in this paper are implemented via **concatenation**, not addition. BSC-DenseNet has extra connections within the densely connected block, preserving DenseNet’s feature aggregation mechanism and enhancing feature representation at each layer. 
 
 ##### Cite as:
 ```
@@ -31,10 +34,10 @@ Kumar, Ravin, Adding Binary Search Connections to Improve DenseNet Performance (
 ### 🔍 Why DenseNet Needed an Upgrade?
 DenseNet’s brilliance lies in its fully connected architecture, where each layer is linked to every preceding layer within a block. This design enhances gradient flow, allows better feature reuse, and requires fewer parameters. Yet, this “all-to-all” connection approach often treats every layer as equally valuable. Not every previous layer holds the same relevance at every stage of learning, leading to suboptimal performance in some cases.
 
-This is where Binary Search Connections (BSC) come in. BSC introduces a more refined approach by selectively reinforcing connections based on a binary search-inspired logic. Rather than linking all layers indiscriminately, BSC targets important features and ensures that they are reintroduced at critical stages of the network. This refined connectivity emphasizes the most relevant information, allowing the model to focus on key features without cluttering the network with unnecessary connections. It’s like skipping directly to the most relevant dictionary pages instead of reading each one sequentially.
+This is where Binary Search Connections (BSC) come in. BSC introduces a more refined approach by selectively reinforcing connections based on a binary search-inspired logic. Rather than linking all layers indiscriminately, BSC selectively repeats feature maps from specific earlier layers according to a binary search-inspired recursive pattern. This refined connectivity increases the influence of selected earlier feature maps while preserving DenseNet’s existing connectivity. It is like placing additional bookmarks on selected dictionary pages so that they receive greater attention when the information is revisited.
 
 ### 🧠 The Idea Behind Binary Search Connections
-Binary Search Connections (BSC) draw inspiration from the binary search algorithm. Just as binary search efficiently narrows down possibilities by halving the search space, BSC-DenseNet introduces strategic connections between layers, focusing on the most critical features. Unlike the exhaustive “all-to-all” connectivity in DenseNet, BSC adds selective connections that emphasize key features as the model deepens.
+Binary Search Connections (BSC) draw inspiration from the binary search algorithm. Just as binary search efficiently narrows down possibilities by halving the search space, BSC-DenseNet introduces strategic connections between layers, reinforcing selected earlier features. Unlike the exhaustive “all-to-all” connectivity in DenseNet, BSC adds selective connections that increase the influence of these selected features as the model deepens.
 
 BSC-DenseNet enhances DenseNet’s architecture by incorporating a hierarchical structure that reinforces important features. Early-layer features are selectively reintroduced at deeper stages, amplifying their influence. This intelligent reinforcement prioritizes the propagation of vital features, improving overall performance while maintaining DenseNet’s core connectivity.
 
@@ -83,49 +86,52 @@ end if
 |        Layer 6    |      [0, 1, 2, 3, 4, 5]   |   [0, 1, 2, 3, 4, 5, 4]  |
 
 ```
-Note: In BSC-DenseNet, Layer 3 has two inputs from Layer 1, and the Layer 6 has two inputs from Layer 4.
+Note: In BSC-DenseNet, Layer 3 has two inputs from Layer 1, and Layer 6 has two inputs from Layer 4.
 ```
 
 **Binary Search Connections (BSC)** are implemented via **concatenation**, preserving DenseNet’s feature aggregation design. In BSC-DenseNet, additional binary search-inspired connections introduce **repeated inputs from specific earlier layers**, effectively **reinforcing important feature paths**. This selective duplication **promotes stronger gradient flow** through key connections, enhancing representation learning.
 
 --------
 ### Implementation in Pytorch
-##### Important: Densenet-121 code is taken from `torchvision`library, from its [github repository](https://github.com/pytorch/vision/blob/main/torchvision/models/densenet.py); Code of DenseNet-121 is modified to create BSC-Densenet-121 presenet in our `densenet.py` file.
+##### Important: DenseNet-121 code is taken from `torchvision` library, from its [Github repository](https://github.com/pytorch/vision/blob/main/torchvision/models/densenet.py); Code of DenseNet-121 is modified to create BSC-DenseNet-121 presenet in the `densenet.py` file.
 
 ###### Deep Learning Framework: Pytorch
 
-###### Tested with python version: >=3.7 and <= 3.13.2 on Ubuntu.
+###### Tested with Python version: >=3.7 and <= 3.13.2 on Ubuntu.
 
-- ##### Densenet-121 Model with BSC [Binary Search Connection]
+- ##### DenseNet-121 Model with BSC [Binary Search Connection]
 ```python
 from densenet import get_BSC_Densenet_121_model
 BSC_DenseNet_121_Model = get_BSC_Densenet_121_model(num_class=100)
 ```
 
-- ##### Densenet-121 Model without BSC [Binary Search Connection]
+- ##### DenseNet-121 Model without BSC [Binary Search Connection]
 ```python
 from densenet import get_Densenet_121_model
 DenseNet_121_Model = get_Densenet_121_model(num_class=100)
 ```
 ---
 ### 📊 Performance Breakdown
-Run the below terminal command to train and compare performance of BSC-DenseNet-121 with DenseNet-121 on CIFAR-1OO Dataset.
+
+⚠️ **Important**: Experiments 1 and 2 were conducted as separate training runs. BSC-DenseNet-121 used the same architecture and hyperparameters in both experiments but was independently initialized and trained in each experiment.
+
+Run the terminal command given below to train and compare performance of BSC-DenseNet-121 with DenseNet-121 on CIFAR-100 Dataset.
 
 ```python
-python3 run.py --device cuda
+python3 run.py --epoch 20 --device cuda
 ```
-###### Note: To compare DenseNet vs BSC-DenseNet with a constant LR (instead of decreasing LR), please disable the StepLR by using  --use_scheduler to False. (Default is set to True)
+##### Note: To compare DenseNet vs BSC-DenseNet with a constant LR (instead of decreasing LR), please disable the StepLR by using  --use_scheduler to False. (Default is set to True)
 
 ```python
-python3 run.py --device cuda --use_scheduler False
+python3 run.py --epoch 20 --device cuda --use_scheduler False
 ```
-#### 🧪 Experiment 1 : DenseNet vs BSC-DenseNet on CIFAR 100 Dataset
-We compared the performance of DenseNet and BSC-DenseNet on Cifar 100 dataset for classification task. Following default values were used for both the models: **Growth rate = 32**, Block Config = (6, 12, 24, 16), and Number of Initial Features = 64.
+#### 🧪 Experiment 1 : DenseNet vs BSC-DenseNet on CIFAR-100 Dataset
+We compared the performance of DenseNet and BSC-DenseNet on CIFAR-100 Dataset for classification task. Following default values were used for both the models: **Growth rate = 32**, Block Config = (6, 12, 24, 16), and Number of Initial Features = 64.
 
-⚠️ **Important**: In this experiment, DenseNet has a **lesser number of trainable parameters** compared to BSC-DenseNet.
+⚠️ **Important**: In this experiment, DenseNet has **fewer trainable parameters** compared to BSC-DenseNet.
 
 
-After Epoch = 20
+After 20 epochs
 |                Model               |  Trainable Parameters  | Accuracy (on CIFAR-100) |
 |------------------------------------|------------------------|-------------------------|
 | DenseNet-121      (growth rate=32) |        7,056,356       |          50.52 %         |
@@ -135,15 +141,15 @@ Overall Analysis is stored in visual graphs inside `ExperimentResults/EXP1_overa
 ![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/ExperimentResults/EXP1_overall_analysis.png?raw=true)
 
 
-#### 🧪 Experiment 2: DenseNet vs BSC-DenseNet on CIFAR 100 Dataset
+#### 🧪 Experiment 2: DenseNet vs BSC-DenseNet on CIFAR-100 Dataset
 To assess whether the improved performance of BSC-DenseNet-121 stems from its architectural design or simply from having more trainable parameters, we conducted a controlled comparison.
 
-⚠️ **Important**: In this experiment, DenseNet has a **greater number of trainable parameters** compared to BSC-DenseNet.
+⚠️ **Important**: In this experiment, DenseNet has **more trainable parameters** compared to BSC-DenseNet.
 
 Specifically, we compared `BSC-DenseNet-121` with a `growth rate of 32` (totaling `7,574,756 trainable parameters`) against a vanilla `DenseNet-121 with a higher growth rate of 34` (resulting in `7,936,319 trainable parameters`). Despite having significantly fewer parameters, **BSC-DenseNet-121 outperformed the larger DenseNet-121**, suggesting that the binary search connections (BSC) contribute meaningfully to the model's effectiveness rather than mere parameter count.
 
 
-After Epoch = 20
+After 20 epochs
 |               Model                |  Trainable Parameters  | Accuracy (on CIFAR-100) |
 |------------------------------------|------------------------|-------------------------|
 | DenseNet-121     (growth rate=34)  |        7,936,319       |          52.63 %         |
@@ -152,7 +158,7 @@ After Epoch = 20
 Overall Analysis is stored in visual graphs inside `ExperimentResults/EXP2_overall_analysis.png`.
 ![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/ExperimentResults/EXP2_overall_analysis.png?raw=true)
 
-**In short**: BSC-DenseNet learns faster, generalizes better, and resists overfitting than DenseNet.
+**In short**: In the reported experiments, BSC-DenseNet-121 achieved higher CIFAR-100 accuracy and demonstrated improved generalization performance compared with the corresponding DenseNet-121 baselines.
 
 ---
 
