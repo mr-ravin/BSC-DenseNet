@@ -16,7 +16,7 @@ The base code of the openly available DenseNet is also present in this repositor
 
 **Other Sources**:
 - [ResearchGate](https://www.researchgate.net/publication/339673672_Adding_Binary_Search_Connections_to_Improve_DenseNet_Performance), [ResearchGate - Preprint](https://www.researchgate.net/publication/382385286_Adding_binary_search_connections_to_improve_DenseNet_performance)
-- [Osf.io](https://osf.io/preprints/osf/8z42s_v2)
+- [OSF.io](https://osf.io/preprints/osf/8z42s_v2)
 - [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3545071)
 - [Internet Archive](https://archive.org/details/bsc-densenet)
 - [Medium.com](https://medium.com/@ch.ravinkumar/boosting-densenet-model-with-binary-search-connections-a-smarter-way-to-improve-performance-5a009ea1b693)
@@ -115,23 +115,18 @@ DenseNet_121_Model = get_Densenet_121_model(num_class=100)
 
 ⚠️ **Important**: Experiments 1 and 2 were conducted as separate training runs. BSC-DenseNet-121 used the same architecture and hyperparameters in both experiments but was independently initialized and trained in each experiment.
 
-Run the terminal command given below to train and compare performance of BSC-DenseNet-121 with DenseNet-121 on CIFAR-100 Dataset.
-
-```bash
-python3 run.py --epoch 20 --device cuda
-```
-##### Note: To compare DenseNet vs BSC-DenseNet with a constant LR (instead of decreasing LR), please disable the StepLR by using  --use_scheduler to False. (Default is set to True)
-
-```bash
-python3 run.py --epoch 20 --device cuda --use_scheduler False
-```
-#### 🧪 Experiment 1 : DenseNet vs BSC-DenseNet on CIFAR-100 Dataset
-We compared the performance of DenseNet and BSC-DenseNet on CIFAR-100 Dataset for classification task. Following default values were used for both the models: **Growth rate = 32**, Block Config = (6, 12, 24, 16), and Number of Initial Features = 64.
+#### 🧪 Experiment 1: DenseNet vs BSC-DenseNet on CIFAR-100 dataset
+We compared the performance of DenseNet and BSC-DenseNet on CIFAR-100 dataset for classification task. The following values were used for both models: **Growth rate = 32**, Block Config = (6, 12, 24, 16), and Number of Initial Features = 64.
 
 ⚠️ **Important**: In this experiment, DenseNet has **fewer trainable parameters** compared to BSC-DenseNet.
 
+Run the terminal command given below to train and compare performance of BSC-DenseNet-121 with DenseNet-121 on CIFAR-100 dataset.
 
-After 20 epochs
+```bash
+python3 run.py --densenet_growth_rate 32 --bsc_densenet_growth_rate 32 --epoch 20 --device cuda 
+```
+
+After 20 epochs:
 |                Model               |  Trainable Parameters  | Accuracy (on CIFAR-100) |
 |------------------------------------|------------------------|-------------------------|
 | DenseNet-121      (growth rate=32) |        7,056,356       |          50.52 %         |
@@ -141,15 +136,20 @@ Overall Analysis is stored in visual graphs inside `ExperimentResults/EXP1_overa
 ![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/ExperimentResults/EXP1_overall_analysis.png?raw=true)
 
 
-#### 🧪 Experiment 2: DenseNet vs BSC-DenseNet on CIFAR-100 Dataset
+#### 🧪 Experiment 2: DenseNet vs BSC-DenseNet on CIFAR-100 dataset
 To assess whether the improved performance of BSC-DenseNet-121 stems from its architectural design or simply from having more trainable parameters, we conducted a controlled comparison.
 
 ⚠️ **Important**: In this experiment, DenseNet has **more trainable parameters** compared to BSC-DenseNet.
 
 Specifically, we compared `BSC-DenseNet-121` with a `growth rate of 32` (totaling `7,574,756 trainable parameters`) against a vanilla `DenseNet-121 with a higher growth rate of 34` (resulting in `7,936,319 trainable parameters`). Despite having significantly fewer parameters, **BSC-DenseNet-121 outperformed the larger DenseNet-121**, suggesting that the binary search connections (BSC) contribute meaningfully to the model's effectiveness rather than mere parameter count.
 
+Run the terminal command given below to train and compare performance of BSC-DenseNet-121 with DenseNet-121 on CIFAR-100 dataset.
 
-After 20 epochs
+```bash
+python3 run.py --densenet_growth_rate 34 --bsc_densenet_growth_rate 32 --epoch 20 --device cuda 
+```
+
+After 20 epochs:
 |               Model                |  Trainable Parameters  | Accuracy (on CIFAR-100) |
 |------------------------------------|------------------------|-------------------------|
 | DenseNet-121     (growth rate=34)  |        7,936,319       |          52.63 %         |
@@ -157,6 +157,9 @@ After 20 epochs
 
 Overall Analysis is stored in visual graphs inside `ExperimentResults/EXP2_overall_analysis.png`.
 ![image](https://github.com/mr-ravin/BSC-DenseNet/blob/main/ExperimentResults/EXP2_overall_analysis.png?raw=true)
+
+
+**Note**: To compare DenseNet vs BSC-DenseNet with a constant LR (instead of decreasing LR), please disable the StepLR by using  `--use_scheduler False`. (Default is set to True)
 
 **In short**: In the reported experiments, BSC-DenseNet-121 achieved higher CIFAR-100 accuracy and demonstrated improved generalization performance compared with the corresponding DenseNet-121 baselines.
 
