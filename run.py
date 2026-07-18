@@ -38,7 +38,7 @@ NUM_CLASSES = int(args.num_classes)
 USE_SCHEDULER = args.use_scheduler.lower()
 DENSENET_GROWTH_RATE = int(args.densenet_growth_rate)
 BSC_DENSENET_GROWTH_RATE = int(args.bsc_densenet_growth_rate)
-USE_PIN_MEMORY = torch.cuda.is_available() and DEVICE.startswith("cuda")
+USE_PIN_MEMORY = True if DEVICE == "cpu" else False 
 
 def set_seed(seed=42):
     random.seed(seed)
@@ -120,8 +120,6 @@ def train(total_epoch):
         with tqdm(train_dataloader, unit=" Train batch") as tepoch:
             tepoch.set_description(f"Train Epoch {ep+1}")
             for input_images, gt_labels in tepoch:
-                input_images = input_images.to(DEVICE, non_blocking=USE_PIN_MEMORY)
-                gt_labels = gt_labels.to(DEVICE, non_blocking=USE_PIN_MEMORY)
                 train_batch_run += 1
                 densenet_optimizer.zero_grad()
                 bsc_densenet_optimizer.zero_grad()
@@ -149,8 +147,6 @@ def train(total_epoch):
         with tqdm(test_dataloader, unit=" Valid batch") as vepoch:
             vepoch.set_description(f"Valid Epoch {ep+1}")
             for input_images, gt_labels in vepoch:
-                input_images = input_images.to(DEVICE, non_blocking=USE_PIN_MEMORY)
-                gt_labels = gt_labels.to(DEVICE, non_blocking=USE_PIN_MEMORY)
                 valid_batch_run += 1
                 with torch.no_grad():
                     densenet_ouput = DenseNet(input_images)
