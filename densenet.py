@@ -303,7 +303,7 @@ def get_Densenet_121_model(num_class, densenet_growth_rate=32):
 
 def get_densenet_models(num_class, densenet_growth_rate=32, bsc_densenet_growth_rate=32):
     """A fixed global seed makes initialization reproducible only for the same model-construction sequence. 
-    Constructing DenseNet first consumes random values from PyTorch's RNG. Therefore, changing \
+    Constructing DenseNet first consumes random values from PyTorch's RNG. Therefore, changing 
     DenseNet's growth rate or changing the model-construction order may give BSC-DenseNet different initial weights, 
     even when the same global seed is used. This is expected because the experimental settings are executed as 
     independent runs."""
