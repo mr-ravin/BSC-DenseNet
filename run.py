@@ -23,7 +23,7 @@ parser.add_argument('-sch', '--use_scheduler', default="True", help="Use StepLR 
 parser.add_argument('-d_gr', '--densenet_growth_rate', default="32", help="Growth rate of DenseNet-121")
 parser.add_argument('-bsc_gr', '--bsc_densenet_growth_rate', default="32", help="Growth rate of BSC-DenseNet-121")
 parser.add_argument('-dim','--dim', default=32)
-parser.add_argument('-ep', '--epoch', default = 30)
+parser.add_argument('-ep', '--epoch', default = 20)
 parser.add_argument('-m', '--mode', default="train")
 parser.add_argument('-c', '--num_classes', default=100)
 parser.add_argument('-d', '--device', default="cuda")
@@ -38,6 +38,7 @@ NUM_CLASSES = int(args.num_classes)
 USE_SCHEDULER = args.use_scheduler.lower()
 DENSENET_GROWTH_RATE = int(args.densenet_growth_rate)
 BSC_DENSENET_GROWTH_RATE = int(args.bsc_densenet_growth_rate)
+USE_PIN_MEMORY = torch.cuda.is_available() and DEVICE.startswith("cuda")
 
 def set_seed(seed=42):
     random.seed(seed)
@@ -85,7 +86,7 @@ def train(total_epoch):
     if USE_SCHEDULER != "false":
         densenet_scheduler = StepLR(densenet_optimizer, step_size=3, gamma=0.5)
         bsc_densenet_scheduler = StepLR(bsc_densenet_optimizer, step_size=3, gamma=0.5)
-    # Not using data-augmentation
+    # data-augmentation
     transform_train = A.Compose([
         A.Resize(height=DIM, width=DIM),
         A.RandomCrop(height=DIM, width=DIM),
@@ -99,15 +100,14 @@ def train(total_epoch):
         A.Normalize(mean=[0.5071, 0.4865, 0.4409], std=[0.2673, 0.2564, 0.2761]),
         ToTensorV2(),
     ])
-    training_data = CIFAR100_Dataset(transform_train, device = DEVICE, mode="train")
-    test_data = CIFAR100_Dataset(transform_test, device = DEVICE, mode="test")
-    train_dataloader = DataLoader(training_data, batch_size=100, shuffle=True, pin_memory=(DEVICE != "cpu"))
-    test_dataloader = DataLoader(test_data, batch_size=100, shuffle=False, pin_memory=(DEVICE != "cpu"))
+    training_data = CIFAR100_Dataset(transform_train, device = "cpu", mode="train")
+    test_data = CIFAR100_Dataset(transform_test, device = "cpu", mode="test")
+    train_dataloader = DataLoader(training_data, batch_size=120, shuffle=True, pin_memory=USE_PIN_MEMORY)
+    test_dataloader = DataLoader(test_data, batch_size=120, shuffle=False, pin_memory=USE_PIN_MEMORY)
     densenet_epoch_tr_loss, densenet_epoch_vl_loss = [],[]
     densenet_epoch_tr_acc, densenet_epoch_vl_acc = [], []
     bsc_densenet_epoch_tr_loss, bsc_densenet_epoch_vl_loss = [],[]
     bsc_densenet_epoch_tr_acc, bsc_densenet_epoch_vl_acc = [], []
-    densenet_valid_loss_min, bsc_densenet_valid_loss_min = np.inf, np.inf
     densenet_valid_acc_max, bsc_densenet_valid_acc_max = -1, -1
     for ep in range(total_epoch):
         densenet_train_acc, bsc_densenet_train_acc = 0.0, 0.0
@@ -120,6 +120,8 @@ def train(total_epoch):
         with tqdm(train_dataloader, unit=" Train batch") as tepoch:
             tepoch.set_description(f"Train Epoch {ep+1}")
             for input_images, gt_labels in tepoch:
+                input_images = input_images.to(DEVICE, non_blocking=USE_PIN_MEMORY)
+                gt_labels = gt_labels.to(DEVICE, non_blocking=USE_PIN_MEMORY)
                 train_batch_run += 1
                 densenet_optimizer.zero_grad()
                 bsc_densenet_optimizer.zero_grad()
@@ -147,6 +149,8 @@ def train(total_epoch):
         with tqdm(test_dataloader, unit=" Valid batch") as vepoch:
             vepoch.set_description(f"Valid Epoch {ep+1}")
             for input_images, gt_labels in vepoch:
+                input_images = input_images.to(DEVICE, non_blocking=USE_PIN_MEMORY)
+                gt_labels = gt_labels.to(DEVICE, non_blocking=USE_PIN_MEMORY)
                 valid_batch_run += 1
                 with torch.no_grad():
                     densenet_ouput = DenseNet(input_images)
@@ -192,24 +196,24 @@ def train(total_epoch):
         print("BSC-DENSENET: ")
         print(f'train_loss : {bsc_densenet_epoch_train_loss} val_loss : {bsc_densenet_epoch_val_loss}')
         print(f'train_accuracy : {bsc_densenet_epoch_train_acc} val_accuracy : {bsc_densenet_epoch_val_acc}')
-        if densenet_epoch_val_loss <= densenet_valid_loss_min or densenet_valid_acc_max <= densenet_epoch_val_acc:
-            os.system("rm ./models/densenet_*.pth")
-            print("Densenet: removing stored weights of previous epoch")
-            torch.save(DenseNet.state_dict(), root_path+"models/densenet_"+str(ep+1)+".pth")
-            print('Densenet: Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(densenet_valid_loss_min, densenet_epoch_val_loss))
-            if densenet_epoch_val_loss < densenet_valid_loss_min:
-                densenet_valid_loss_min = densenet_epoch_val_loss
+        # Save Last pt file
+        # os.system("rm ./models/densenet_last.pth")
+        torch.save(DenseNet.state_dict(), root_path+"models/densenet_last.pth")
+        # os.system("rm ./models/bsc_densenet_last.pth")
+        torch.save(BSC_DenseNet.state_dict(), root_path+"models/bsc_densenet_last.pth")
+        # Save Best pt file
+        if densenet_valid_acc_max < densenet_epoch_val_acc:
+            # os.system("rm ./models/densenet_best.pth")
+            torch.save(DenseNet.state_dict(), root_path+"models/densenet_best.pth")
+            print('Densenet: Validation Accuracy Improved ({:.6f} --> {:.6f}).  Saving model ...'.format(densenet_valid_acc_max, densenet_epoch_val_acc))
             if densenet_valid_acc_max < densenet_epoch_val_acc:
                 densenet_valid_acc_max = densenet_epoch_val_acc
         
-        if bsc_densenet_epoch_val_loss <= bsc_densenet_valid_loss_min or bsc_densenet_valid_acc_max <= bsc_densenet_epoch_val_acc:
-            os.system("rm ./models/bsc_densenet_*.pth")
-            print("BSC-Densenet: removing stored weights of previous epoch")
-            torch.save(BSC_DenseNet.state_dict(), root_path+"models/bsc_densenet_"+str(ep+1)+".pth")
-            print('BSC-Densenet: Validation loss decreased ({:.6f} --> {:.6f}).  Saving model ...'.format(bsc_densenet_valid_loss_min, bsc_densenet_epoch_val_loss))
-            if bsc_densenet_epoch_val_loss <= bsc_densenet_valid_loss_min:
-                bsc_densenet_valid_loss_min = bsc_densenet_epoch_val_loss
-            if bsc_densenet_valid_acc_max <= bsc_densenet_epoch_val_acc:
+        if bsc_densenet_valid_acc_max < bsc_densenet_epoch_val_acc:
+            # os.system("rm ./models/bsc_densenet_best.pth")
+            torch.save(BSC_DenseNet.state_dict(), root_path+"models/bsc_densenet_best.pth")
+            print('BSC-Densenet: Validation Accuracy Improved ({:.6f} --> {:.6f}).  Saving model ...'.format(bsc_densenet_valid_acc_max, bsc_densenet_epoch_val_acc))
+            if bsc_densenet_valid_acc_max < bsc_densenet_epoch_val_acc:
                 bsc_densenet_valid_acc_max = bsc_densenet_epoch_val_acc
         
         if USE_SCHEDULER != "false":
