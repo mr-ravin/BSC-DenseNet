@@ -103,7 +103,7 @@ def train(total_epoch):
     training_data = CIFAR100_Dataset(transform_train, device = "cpu", mode="train")
     test_data = CIFAR100_Dataset(transform_test, device = "cpu", mode="test")
     train_dataloader = DataLoader(training_data, batch_size=120, shuffle=True, pin_memory=USE_PIN_MEMORY)
-    test_dataloader = DataLoader(test_data, batch_size=120, shuffle=False, pin_memory=USE_PIN_MEMORY)
+    test_dataloader = DataLoader(test_data, batch_size=120, shuffle=True, pin_memory=USE_PIN_MEMORY)
     densenet_epoch_tr_loss, densenet_epoch_vl_loss = [],[]
     densenet_epoch_tr_acc, densenet_epoch_vl_acc = [], []
     bsc_densenet_epoch_tr_loss, bsc_densenet_epoch_vl_loss = [],[]
