@@ -6,3 +6,4 @@ opencv_python_headless==4.11.0.86
 torch==2.7.0
 torchvision==0.22.0
 tqdm==4.67.1
+pandas==3.0.3
