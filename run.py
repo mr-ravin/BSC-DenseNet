@@ -100,8 +100,8 @@ def train(total_epoch):
         A.Normalize(mean=[0.5071, 0.4865, 0.4409], std=[0.2673, 0.2564, 0.2761]),
         ToTensorV2(),
     ])
-    training_data = CIFAR100_Dataset(transform_train, device = "cpu", mode="train")
-    test_data = CIFAR100_Dataset(transform_test, device = "cpu", mode="test")
+    training_data = CIFAR100_Dataset(transform_train, device = "cuda", mode="train")
+    test_data = CIFAR100_Dataset(transform_test, device = "cuda", mode="test")
     train_dataloader = DataLoader(training_data, batch_size=120, shuffle=True, pin_memory=USE_PIN_MEMORY)
     test_dataloader = DataLoader(test_data, batch_size=120, shuffle=True, pin_memory=USE_PIN_MEMORY)
     densenet_epoch_tr_loss, densenet_epoch_vl_loss = [],[]
