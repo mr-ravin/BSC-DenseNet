@@ -102,13 +102,13 @@ Note: In BSC-DenseNet, Layer 3 has two inputs from Layer 1, and Layer 6 has two 
 - ##### DenseNet-121 Model with BSC [Binary Search Connection]
 ```python
 from densenet import get_BSC_Densenet_121_model
-BSC_DenseNet_121_Model = get_BSC_Densenet_121_model(num_class=100)
+BSC_DenseNet_121_Model = get_BSC_Densenet_121_model(num_class=100, bsc_densenet_growth_rate=32)
 ```
 
 - ##### DenseNet-121 Model without BSC [Binary Search Connection]
 ```python
 from densenet import get_Densenet_121_model
-DenseNet_121_Model = get_Densenet_121_model(num_class=100)
+DenseNet_121_Model = get_Densenet_121_model(num_class=100, densenet_growth_rate=32)
 ```
 ---
 ### 📊 Performance Breakdown
